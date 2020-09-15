@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -103,6 +105,20 @@ public class AndroidTicTacToeActivity extends AppCompatActivity {
         else
             mBoardButtons[location].setTextColor(Color.rgb(200, 0, 0));
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add("New Game");
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        startNewGame();
+        return true;
+    }
+
+
 
 
 

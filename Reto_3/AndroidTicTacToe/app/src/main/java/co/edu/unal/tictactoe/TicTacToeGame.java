@@ -41,13 +41,68 @@ public class TicTacToeGame extends AppCompatActivity {
 
 
 
-    // Check for a winner.  Return
-    //  0 if no winner or tie yet
-    //  1 if it's a tie
-    //  2 if X won
-    //  3 if O won
-    public int checkForWinner() {
+    /** Clear the board of all X's and O's by setting all spots to OPEN_SPOT. */
+    public void clearBoard(){
+        for (int i = 0; i < mBoard.length; i++){
+            mBoard[i] = OPEN_SPOT;
+        }
+    }
 
+    /** Set the given player at the given location on the game board.
+     *  The location must be available, or the board will not be changed.
+     *
+     * @param player - The HUMAN_PLAYER or COMPUTER_PLAYER
+     * @param location - The location (0-8) to place the move
+     */
+    public void setMove(char player, int location){
+        mBoard[location] = player;
+    }
+
+    /** Return the best move for the computer to make. You must call setMove()
+     * to actually make the computer move to that location.
+     * @return The best move for the computer to make (0-8).
+     */
+    public int getComputerMove(){
+        int move = -1;
+        // First see if there's a move O can make to win
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
+                mBoard[i] = COMPUTER_PLAYER;
+                if (checkForWinner() == 3) {
+                    return i;
+                }
+                else
+                    mBoard[i] = OPEN_SPOT;
+            }
+        }
+
+        // See if there's a move O can make to block X from winning
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
+                mBoard[i] = HUMAN_PLAYER;
+                if (checkForWinner() == 2) {
+                    mBoard[i] = COMPUTER_PLAYER;
+                    return i;
+                }
+                else
+                    mBoard[i] = OPEN_SPOT;
+            }
+        }
+
+        do
+        {
+            move = mRand.nextInt(BOARD_SIZE);
+        } while (mBoard[move] == HUMAN_PLAYER || mBoard[move] == COMPUTER_PLAYER);
+
+        return move;
+    }
+
+    /**
+     * Check for a winner and return a status value indicating who has won.
+     * @return Return 0 if no winner or tie yet, 1 if it's a tie, 2 if X won,
+     * or 3 if O won.
+     */
+    public int checkForWinner() {
         // Check horizontal wins
         for (int i = 0; i <= 6; i += 3)	{
             if (mBoard[i] == HUMAN_PLAYER &&
@@ -98,92 +153,6 @@ public class TicTacToeGame extends AppCompatActivity {
         // If we make it through the previous loop, all places are taken, so it's a tie
         return 1;
     }
-
-
-
-    public int getComputerMove()
-    {
-        int move;
-
-        // First see if there's a move O can make to win
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
-                char curr = mBoard[i];
-                mBoard[i] = COMPUTER_PLAYER;
-                if (checkForWinner() == 3) {
-                    //System.out.println("Computer is moving to " + (i + 1));
-                    return i+1;
-                }
-                else
-                    mBoard[i] = curr;
-            }
-        }
-
-        // See if there's a move O can make to block X from winning
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
-                char curr = mBoard[i];   // Save the current number
-                mBoard[i] = HUMAN_PLAYER;
-                if (checkForWinner() == 2) {
-                    mBoard[i] = COMPUTER_PLAYER;
-                    //System.out.println("Computer is moving to " + (i + 1));
-                    return i +1;
-                }
-                else
-                    mBoard[i] = curr;
-            }
-        }
-
-        // Generate random move
-        do
-        {
-            move = mRand.nextInt(BOARD_SIZE);
-        } while (mBoard[move] == HUMAN_PLAYER || mBoard[move] == COMPUTER_PLAYER);
-
-        //System.out.println("Computer is moving to " + (move + 1));
-
-        mBoard[move] = COMPUTER_PLAYER;
-        return move + 1 ;
-    }
-
-    /** Clear the board of all X's and O's by setting all spots to OPEN_SPOT. */
-    public void clearBoard(){
-        for (int i = 0; i < BOARD_SIZE; i++) {
-                mBoard[i] = OPEN_SPOT;
-        }
-    }
-
-    /** Set the given player at the given location on the game board.
-     *  The location must be available, or the board will not be changed.
-     *
-     * @param player - The HUMAN_PLAYER or COMPUTER_PLAYER
-     * @param location - The location (0-8) to place the move
-     */
-    public void setMove(char player, int location){
-        if(mBoard[location] != HUMAN_PLAYER && mBoard[location] != COMPUTER_PLAYER) {
-            mBoard[location] = player;
-        }
-    }
-
-    /** Return the best move for the computer to make. You must call setMove()
-     * to actually make the computer move to that location.
-     * @return The best move for the computer to make (0-8).
-     */
-    /*public int getComputerMove(){
-
-    }*/
-
-    /**
-     * Check for a winner and return a status value indicating who has won.
-     * @return Return 0 if no winner or tie yet, 1 if it's a tie, 2 if X won,
-     * or 3 if O won.
-     */
-    /*public int checkForWinner(){
-
-    }*/
-
-
-
 
 
 }

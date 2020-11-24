@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">GpsAndroid</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="user_location_permission_explanation">Aquesta app necessita permisos per mostrar la seva funcionalitat.</string>
+    <string name="user_location_permission_not_granted">No heu proporcionat permisos de localització.</string>
+    <string name="new_location">New lat: %1$s New longitude: %2$s</string>
+
+    <string name="mapbox_access_token">pk.eyJ1IjoiZGF2aWRzdDE0MDQiLCJhIjoiY2toamU1a3B1MXd4czJ3dDl6MTVtcXFqMiJ9.HxnyUs3YqZtiHJZ0_6QY7A</string>
+
+    <!-- Tilequery API -->
+    <string name="api_response">Tilequery API response:</string>
+
+</resources>

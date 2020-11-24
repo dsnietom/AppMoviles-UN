@@ -128,32 +128,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 // The FeatureCollection that is inside the API response
                 List<Feature> featureList = response.body().features();
-                System.out.println("featureList " + featureList);
+
+                // Borrar marcadores
+                List<Marker> markersCurrent = mapboxMap.getMarkers();
+                for (Marker marker:markersCurrent) {
+                    mapboxMap.removeMarker(marker);
+                }
 
                 List<Double> coordinates = new ArrayList<>();
 
-                System.out.println("Pos0 " + featureList.get(0).geometry().toJson());
                 int i =0;
+                // Agregar marcadores
                 for (Feature feature:featureList
                 ) {
                     // The Feature's GeoJSON geometry type
                     String type = featureList.get(i).getProperty("type").toString();
-                    System.out.println("type "+type);
 
                     // The id of the map layer which the Feature is a part of
                     String layerId = featureList.get(i).getProperty("tilequery").getAsJsonObject().get("layer").toString();
-                    System.out.println("layerId " + layerId);
 
 
                     Object obj = JsonParser.parseString(featureList.get(i).geometry().toJson());
                     JsonObject jo = (JsonObject) obj;
-                    System.out.println("*******************coordinates************");
-                    System.out.println(jo.get("coordinates"));
 
                     JsonArray ja = jo.get("coordinates").getAsJsonArray();
-                    System.out.println(ja.get(0).getAsDouble());
-                    System.out.println(ja.get(1).getAsDouble());
-                    coordinates.add(ja.get(0).getAsDouble());
 
                     mapboxMap.addMarker(new MarkerOptions()
                             .position(new LatLng(ja.get(1).getAsDouble(), ja.get(0).getAsDouble()))
@@ -213,11 +211,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
 
             locationEngine = LocationEngineProvider.getBestLocationEngine(this);
-            System.out.println("locationEngine "+locationEngine);
 
         // Get an instance of the component
             LocationComponent locationComponent = mapboxMap.getLocationComponent();
-            System.out.println("locationComponent "+locationComponent);
 
         // Activate with options
             locationComponent.activateLocationComponent(
@@ -240,7 +236,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        System.out.println("results "+requestCode+permissions+grantResults);
     }
 
     @Override
